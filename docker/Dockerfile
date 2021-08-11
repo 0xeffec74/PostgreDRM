@@ -1,8 +1,10 @@
 # "experimental" ;  only for testing!
 # multi-stage dockerfile;  minimal docker version >= 17.05
 FROM postgres:13 as builder
+# FROM ubuntu:20.04
 
 LABEL maintainer="PostGIS Project - https://postgis.net"
+ARG DEBIAN_FRONTEND=noninteractive
 
 WORKDIR /
 
@@ -277,6 +279,15 @@ RUN set -ex \
     && rm -rf /var/lib/apt/lists/*
 
 RUN mkdir -p /docker-entrypoint-initdb.d
-COPY ./initdb-postgis.sh /docker-entrypoint-initdb.d/10_postgis.sh
-COPY ./update-postgis.sh /usr/local/bin
+COPY ./docker/initdb-postgis.sh /docker-entrypoint-initdb.d/10_postgis.sh
+COPY ./docker/update-postgis.sh /usr/local/bin
 
+RUN apt-get update \
+    && apt -y install wget \
+    && apt -y install gnupg software-properties-common \
+    && wget -qO - https://qgis.org/downloads/qgis-2021.gpg.key | gpg --no-default-keyring --keyring gnupg-ring:/etc/apt/trusted.gpg.d/qgis-archive.gpg --import \
+    && chmod a+r /etc/apt/trusted.gpg.d/qgis-archive.gpg \
+    && add-apt-repository "deb https://qgis.org/debian `lsb_release -c -s` main" \
+    && apt-get update \
+    && apt search qgis \
+    && apt -y install qgis python-qgis qgis-plugin-grass saga
