@@ -19,7 +19,7 @@ env:
   RESISTRY_URL: ghcr.io/${{ github.repository_owner }}
   IMAGE_NAME: postgis-qgis
   DOCKER_FILE: ./docker/Dockerfile
-  TEST_VERSION: test.${{ github.run_number }}
+  RELEASE_VERSION: latest
   TEST_LOG_ARCHIVE: test_logs-${{ github.run_number }}
   DISPLAY: :99
 
@@ -67,6 +67,6 @@ jobs:
       # burger-war-kitrイメージをテストバージョンとしてプッシュ
       - name: Push Docker Image
         run: |
-          docker tag ${{ env.IMAGE_NAME }} ${{ env.RESISTRY_URL }}/${{ env.IMAGE_NAME }}:${{ env.TEST_VERSION }}
-          docker push ${{ env.RESISTRY_URL }}/${{ env.IMAGE_NAME }}:${{ env.TEST_VERSION }}
-          echo "${{ env.TEST_VERSION }}" > TEST_VERSION
+          docker tag ${{ env.IMAGE_NAME }} ${{ env.RESISTRY_URL }}/${{ env.IMAGE_NAME }}:${{ env.RELEASE_VERSION }}
+          docker push ${{ env.RESISTRY_URL }}/${{ env.IMAGE_NAME }}:${{ env.RELEASE_VERSION }}
+          echo "${{ env.RELEASE_VERSION }}" > RELEASE_VERSION
