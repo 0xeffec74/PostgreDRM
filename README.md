@@ -1,5 +1,5 @@
 
-# PostgreDRM(編集中)
+# PostgreDRM
 
 PostgisとQGISの環境構築が同時に出来るDocker-composeです。
 
@@ -73,14 +73,34 @@ docker exec -it postgre_container bash
 ./docker-entrypoint-initdb.d/init-db.sh
 ```
 
+4.中に入って見る
+
+```bash
+psql -U test01
+```
+
+5.テーブルの一覧を確認する
+
+```bash
+\dt
+```
+
+6.テーブルの中身を確認する
+
+```bash
+select * from test_table;
+```
+
 # Note
 
-注意点などがあれば書く
+## xlaunchのインストールと起動について
 
-# Author
+以下のサイトを参考にインストール・動作確認を行ってください。
 
-* s.noge
+[VcXsrv（Xサーバー）をWindowsにインストールしLinuxのGUIをリモート操作する設定方法](https://rin-ka.net/windows-x-server/#toc8)
 
-# License
+DISPLAY変数は以下を設定しておくと便利です(~/.profileなどへの追記をお勧めします)。
 
-"PostgreDRM" is Confidential.
+```bash
+export DISPLAY=$(cat /etc/resolv.conf | grep nameserver | awk '{print $2}'):0.0
+```
