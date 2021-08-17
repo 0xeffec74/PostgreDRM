@@ -61,31 +61,19 @@ xlaunchの起動方法についてはNoteをご参照ください。
 docker exec -it postgre_container bash
 ```
 
-2.サンプルのテーブルを作成する
+2.データベースの中に入る
 
 ```bash
-./docker-entrypoint-initdb.d/init-db.sh
+psql -U docker -d postgre
 ```
 
-3.SQLを実行する
-
-```bash
-./docker-entrypoint-initdb.d/init-db.sh
-```
-
-4.中に入って見る
-
-```bash
-psql -U test01
-```
-
-5.テーブルの一覧を確認する
+3.テーブルの一覧を確認する
 
 ```bash
 \dt
 ```
 
-6.テーブルの中身を確認する
+4.テーブルの中身を確認する
 
 ```bash
 select * from test_table;
