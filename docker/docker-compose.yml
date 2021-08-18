@@ -1,15 +1,17 @@
 version: '3'
 services:
   db:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
     container_name: postgre_container
-    image: postgis/postgis:13-master
     environment:
       POSTGRES_DB: postgre
       POSTGRES_USER: docker
       POSTGRES_PASSWORD: docker
     volumes:
-      - ./pg_data:/var/lib/postgresql/data
-      - ./sql:/docker-entrypoint-initdb.d
+      - ../pg_data:/var/lib/postgresql/data
+      - ../sql:/docker-entrypoint-initdb.d
     ports:
       - 5432:5432
   qgis:
